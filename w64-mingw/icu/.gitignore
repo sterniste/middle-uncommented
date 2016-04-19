@@ -1,0 +1,6 @@
+icu4c-*
+icu
+
+native-target
+native-build
+cross-build

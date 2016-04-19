@@ -1,0 +1,13 @@
+*~
+*.log
+*.out
+
+/.idea
+
+Makefile
+CMakeFiles
+CMakeCache.txt
+CTestTestfile.cmake
+cmake_install.cmake
+
+/build

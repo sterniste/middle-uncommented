@@ -1,0 +1,11 @@
+assumed identity column is PK: handled?
+assumed identity column is FK: ? warning?
+assumed identity column is FK ref: ?
+dropped assumed identity column: warning?
+dropped column figures in PK: warning?
+dropped column is FK: drop FK?
+dropped column is FK ref: warning?
+dropped column used: warning?
+used FK ref table undefined: warning?
+
+

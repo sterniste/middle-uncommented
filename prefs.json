@@ -1,0 +1,271 @@
+{
+  "datatype_rules": [
+    {
+      "type_name": "BIT",
+      "datatype": {
+        "type": "unsized"
+      }
+    },
+    {
+      "type_name": "CHAR",
+      "datatype": {
+        "type": "char_length"
+      }
+    },
+    {
+      "type_name": "NCHAR",
+      "datatype": {
+        "type": "char_length",
+        "map_name": "char"
+      }
+    },
+    {
+      "type_name": "VARCHAR",
+      "datatype": {
+        "type": "char_length",
+        "map_sizes": [
+          {
+            "type": "assign",
+            "range_max": 0,
+            "new_value": 255
+          },
+          {
+            "type": "assign",
+            "range_min": 256,
+            "new_value": 255
+          }
+				]
+      }
+    },
+    {
+      "type_name": "NVARCHAR",
+      "datatype": {
+        "type": "char_length",
+        "map_name": "varchar",
+        "map_sizes": [
+          {
+            "type": "assign",
+            "range_max": 0,
+            "new_value": 255
+          },
+          {
+            "type": "assign",
+            "range_min": 256,
+            "new_value": 255
+          }
+				]
+      }
+    },
+    {
+      "type_name": "TINYINT",
+      "datatype": {
+        "type": "precision_scale",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          },
+          {
+            "type": "scale_narrow",
+            "range_min": 0,
+            "range_max": 0
+          },
+          {
+            "type": "scale_reject_defined"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "SMALLINT",
+      "datatype": {
+        "type": "precision_scale",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          },
+          {
+            "type": "scale_narrow",
+            "range_min": 0,
+            "range_max": 0
+          },
+          {
+            "type": "scale_reject_defined"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "INT",
+      "datatype": {
+        "type": "precision_scale",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          },
+          {
+            "type": "scale_narrow",
+            "range_min": 0,
+            "range_max": 0
+          },
+          {
+            "type": "scale_reject_defined"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "BIGINT",
+      "datatype": {
+        "type": "precision_scale",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          },
+          {
+            "type": "scale_narrow",
+            "range_min": 0,
+            "range_max": 0
+          },
+          {
+            "type": "scale_reject_defined"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "FLOAT",
+      "datatype": {
+        "type": "precision_scale",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          },
+          {
+            "type": "scale_narrow",
+            "range_min": 0,
+            "range_max": 0
+          },
+          {
+            "type": "scale_reject_defined"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "DOUBLE",
+      "datatype": {
+        "type": "precision_scale",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          },
+          {
+            "type": "scale_narrow",
+            "range_min": 0,
+            "range_max": 0
+          },
+          {
+            "type": "scale_reject_defined"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "DECIMAL",
+      "datatype": {
+        "type": "precision_scale"
+      }
+    },
+    {
+      "type_name": "NUMERIC",
+      "datatype": {
+        "type": "precision_scale"
+      }
+    },
+    {
+      "type_name": "SMALLDATETIME",
+      "datatype": {
+        "type": "dt_precision",
+        "map_name": "datetime",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "DATE",
+      "datatype": {
+        "type": "dt_precision",
+        "map_name": "datetime",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "DATETIME",
+      "datatype": {
+        "type": "dt_precision",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "DATETIME2",
+      "datatype": {
+        "type": "dt_precision",
+        "map_name": "datetime",
+        "map_sizes": [
+          {
+            "type": "suppress"
+          }
+        ]
+      }
+    },
+    {
+      "type_name": "TIME",
+      "datatype": {
+        "type": "dt_precision"
+      }
+    },
+    {
+      "type_name": "TIMESTAMP",
+      "datatype": {
+        "type": "dt_precision"
+      }
+    },
+    {
+      "type_name": "TEXT",
+      "datatype": {
+        "type": "char_length",
+        "map_name": "blob",
+        "map_sizes": [
+          {
+            "type": "assign",
+            "range_max": -1
+          },
+          {
+            "type": "assign",
+            "range_min": 256
+          }
+        ]
+      }
+    }
+  ],
+	"default_value_rules": [
+    {
+      "macro_lhs": "getdate",
+			"macro_rhs": "NOW",
+			"macro_args": {
+				"argcnt": 0
+			}
+		}
+	]
+}
