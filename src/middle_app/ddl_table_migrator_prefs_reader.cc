@@ -102,7 +102,7 @@ ptree_cursor::get_int32_t(const char* name, int32_range range) const {
         break;
     }
     return value;
-  } catch (const std::exception& e) {
+  } catch (const boost::exception& e) {
     throw ddl_table_migrator_prefs_error{string{"invalid int32_t value at path "} + pref_path()};
   }
 }
@@ -231,6 +231,8 @@ parse_type_name_datatype_rule(const ptree& pref_tree, const string& pref_path) {
   return pair<uc_string, ddl_datatype_rule>{type_name, parse_datatype_rule(datatype_node, pref_path + ".datatype")};
 }
 
+const string ddl_table_migrator_prefs_reader::cant_parse_json_prefs_msg_prefix{"can't parse JSON prefs: "};
+
 void
 ddl_table_migrator_prefs_reader::load_datatype_rules_prefs(const ptree& pref_root, ddl_datatype_rules& datatype_rules) {
   try {
@@ -263,7 +265,7 @@ ddl_table_migrator_prefs_reader::load_datatype_rules_prefs(const ptree& pref_roo
 unique_ptr<const ddl_default_value_rule_macro_args>
 parse_macro_args(const ptree& pref_tree, const string& pref_path) {
   ptree_cursor cursor{pref_tree, pref_path};
-  const int32_t argcnt{cursor.get_int32_t("argcnt", int32_range::positive)};
+  const int32_t argcnt{cursor.get_int32_t("argcnt", int32_range::non_negative)};
   if (!++cursor)
     return unique_ptr<const ddl_default_value_rule_macro_args>{new ddl_default_value_rule_macro_args{static_cast<unsigned int>(argcnt)}};
   unique_ptr<const ddl_default_value_rule_macro_args> macro_args{new ddl_default_value_rule_macro_args{static_cast<unsigned int>(argcnt), cursor.get_nonempty_string("rewrite")}};
@@ -338,9 +340,9 @@ ddl_table_migrator_prefs_reader::read_table_migrator_prefs(istream& json_prefs_i
     throw;
   } catch (const std::exception& e) {
 #ifdef LEVEL_LOGGING
-    BOOST_LOG_TRIVIAL(info) << "caught std::exception: can't parse JSON prefs: " << e.what();
+    BOOST_LOG_TRIVIAL(info) << "caught std::exception: " << cant_parse_json_prefs_msg_prefix << e.what();
 #endif
-    throw ddl_table_migrator_prefs_error{string{"can't parse JSON prefs: "} + e.what()};
+    throw ddl_table_migrator_prefs_error{cant_parse_json_prefs_msg_prefix + e.what()};
   }
   ddl_table_migrator_prefs table_migrator_prefs;
   load_datatype_rules_prefs(pref_root, table_migrator_prefs.datatype_rules);
