@@ -51,7 +51,7 @@ middle_runner::run() {
   BOOST_LOG_TRIVIAL(info) << "started as: '" << log_cmd_args(argc, argv) << '\'';
 // TODO: options, cwd
 #endif
-  ostream*const verbose_os = verbose ? &cout : nullptr;
+  ostream* const verbose_os = verbose ? &cout : nullptr;
   try {
     const ddl_table_migrator_prefs table_migrator_prefs{get_table_migrator_prefs(verbose_os)};
     dbunit_hsqldb_ddl_table_migrator_factory_impl app_table_migrator_factory{table_migrator_prefs, verbose_os};

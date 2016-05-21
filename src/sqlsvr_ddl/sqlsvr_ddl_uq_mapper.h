@@ -10,7 +10,9 @@
 #include <vector>
 
 #include <ddl_names.h>
-namespace odbc_query { class connection; }
+namespace odbc_query {
+class connection;
+}
 
 #include "sqlsvr_ddl_connection_error.h"
 #include "sqlsvr_ddl_hidable.h"

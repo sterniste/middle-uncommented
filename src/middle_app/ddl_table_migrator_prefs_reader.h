@@ -21,6 +21,9 @@ class ddl_table_migrator_prefs_reader {
 
  public:
   static const std::string cant_parse_json_prefs_msg_prefix;
+  static const std::string cant_parse_json_datatype_rule_prefs_msg_prefix;
+  static const std::string cant_parse_json_default_value_rule_prefs_msg_prefix;
+  static const std::string at_path_msg_infix;
 
   ddl_table_migrator_prefs_reader(std::ostream* verbose_os = nullptr) : verbose_os{verbose_os} {}
 

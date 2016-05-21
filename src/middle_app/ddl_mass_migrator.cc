@@ -26,7 +26,9 @@
 #include <ddl_names_filereader.h>
 #include <ddl_sources.h>
 #include <ddl_stnames_migrator.h>
-namespace normal_ddl { class ddl_table_migrator_factory; }
+namespace normal_ddl {
+class ddl_table_migrator_factory;
+}
 
 namespace middle {
 using namespace std;
@@ -204,7 +206,7 @@ ddl_mass_migrator::mass_migrate_ddl(const vector<string>& include_path_patts, co
               batch_mass_migrator->validate_batch_ddl(filepath, stname_usedcols, have_usedcols, assumed_idents);
           } catch (const ddl_names_filereader_parse_error& e) {
 #ifdef LEVEL_LOGGING
-            BOOST_LOG_TRIVIAL(debug)<< "skipping source '" << filepath << "': DDL names filereader parse error: " << e.what();
+            BOOST_LOG_TRIVIAL(debug) << "skipping source '" << filepath << "': DDL names filereader parse error: " << e.what();
 #endif
             if (verbose_os)
               *verbose_os << "skipping source '" << filepath << "': DDL names filereader parse error: " << e.what() << endl;

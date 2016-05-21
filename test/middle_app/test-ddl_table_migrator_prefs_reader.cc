@@ -1,4 +1,5 @@
 #include <sstream>
+#include <string>
 
 #include <gtest/gtest.h>
 
@@ -27,6 +28,38 @@ TEST(ddl_table_migrator_prefs_reader, test1) {
 }
 
 TEST(ddl_table_migrator_prefs_reader, test2) {
+  istringstream json_prefs_is{"{\"datatype_rules\":false}"};
+  ddl_table_migrator_prefs_reader prefs_reader;
+
+  try {
+    const ddl_table_migrator_prefs table_migrator_prefs{prefs_reader.read_table_migrator_prefs(json_prefs_is)};
+    FAIL() << "expected thrown invalid_argument; nothing caught" << endl;
+  } catch (const ddl_table_migrator_prefs_error& e) {
+    EXPECT_EQ(0, string{e.what()}.find(ddl_table_migrator_prefs_reader::cant_parse_json_datatype_rule_prefs_msg_prefix));
+    const string at_path{ddl_table_migrator_prefs_reader::at_path_msg_infix + "datatype_rules"};
+    EXPECT_EQ(string{e.what()}.length() - at_path.length(), string{e.what()}.rfind(at_path));
+  } catch (...) {
+    FAIL() << "expected thrown ddl_table_migrator_prefs_error; another caught" << endl;
+  }
+}
+
+TEST(ddl_table_migrator_prefs_reader, test3) {
+  istringstream json_prefs_is{"{\"datatype_rules\":[{\"type_name\":\"TEXT\",\"datatype\":{\"type\":\"char_length\"}}],\"default_value_rules\":{\"howl\":false}}"};
+  ddl_table_migrator_prefs_reader prefs_reader;
+
+  try {
+    const ddl_table_migrator_prefs table_migrator_prefs{prefs_reader.read_table_migrator_prefs(json_prefs_is)};
+    FAIL() << "expected thrown invalid_argument; nothing caught" << endl;
+  } catch (const ddl_table_migrator_prefs_error& e) {
+    EXPECT_EQ(0, string{e.what()}.find(ddl_table_migrator_prefs_reader::cant_parse_json_default_value_rule_prefs_msg_prefix));
+    const string at_path{ddl_table_migrator_prefs_reader::at_path_msg_infix + "default_value_rules[1]"};
+    EXPECT_EQ(string{e.what()}.length() - at_path.length(), string{e.what()}.rfind(at_path));
+  } catch (...) {
+    FAIL() << "expected thrown ddl_table_migrator_prefs_error; another caught" << endl;
+  }
+}
+
+TEST(ddl_table_migrator_prefs_reader, test4) {
   const string json_prefs{"{\"datatype_rules\":[{\"type_name\":\"TEXT\",\"datatype\":{\"type\":\"char_length\",\"map_name\":\"blob\",\"map_sizes\":[{\"type\":\"assign\",\"range_max\":-1},{\"type\":\"assign\",\"range_min\":256}]}}],\"default_value_rules\":[{\"macro_lhs\":\"getdate\",\"macro_rhs\":\"NOW\",\"macro_args\":{\"argcnt\":0}}]}"};
   istringstream json_prefs_is{json_prefs};
   ddl_table_migrator_prefs_reader prefs_reader;

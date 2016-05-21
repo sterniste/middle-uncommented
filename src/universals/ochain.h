@@ -24,7 +24,10 @@ template <typename Ch> class basic_counter_ochain : private boost::iostreams::fi
   std::basic_ostream<Ch>& os() { return *this; }
 
   const boost::iostreams::basic_counter<Ch>& counter() const { return *this->template component<boost::iostreams::basic_counter<Ch>>(counter_pos); }
-  std::basic_ostream<Ch>& sink() { this->flush(); return *this->template component<boost::reference_wrapper<std::basic_ostream<Ch>>>(counter_pos + 1); }
+  std::basic_ostream<Ch>& sink() {
+    this->flush();
+    return *this->template component<boost::reference_wrapper<std::basic_ostream<Ch>>>(counter_pos + 1);
+  }
 };
 
 using counter_ochain = basic_counter_ochain<char>;
@@ -39,7 +42,10 @@ template <typename Ch> class basic_string_backed_ochain : private boost::iostrea
 
   std::basic_ostream<Ch>& os() { return *this; }
 
-  const std::basic_string<Ch>& str() { this->flush(); return sink; }
+  const std::basic_string<Ch>& str() {
+    this->flush();
+    return sink;
+  }
   void merge_into(std::basic_ostream<Ch>& os, bool insert_nl = false);
 };
 
@@ -68,7 +74,10 @@ template <typename Ch> class basic_string_backed_counter_ochain : private boost:
   std::basic_ostream<Ch>& os() { return *this; }
 
   const boost::iostreams::basic_counter<Ch>& counter() const { return *this->template component<boost::iostreams::basic_counter<Ch>>(counter_pos); }
-  const std::basic_string<Ch>& str() { this->flush(); return sink; }
+  const std::basic_string<Ch>& str() {
+    this->flush();
+    return sink;
+  }
   void merge_into(std::basic_ostream<Ch>& os, bool insert_nl = false);
 };
 

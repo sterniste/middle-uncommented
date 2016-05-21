@@ -26,7 +26,7 @@ class middle_runner {
   static std::vector<sqlsvr_ddl::sqlsvr_ddl_odbc_data_source> parse_odbc_data_sources(const std::vector<std::string>& dsn_app_pwds);
 
   const int argc;
-  const char*const*const argv;
+  const char* const* const argv;
   bool verbose, time_migration;
   std::string json_prefs_file;
   std::unique_ptr<std::istream> json_prefs_is;

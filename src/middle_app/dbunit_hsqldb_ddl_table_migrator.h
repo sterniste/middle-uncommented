@@ -8,7 +8,9 @@
 
 #include <ddl_names.h>
 #include <ddl_table_migrator.h>
-namespace normal_ddl { struct ddl_table_migrator_prefs; }
+namespace normal_ddl {
+struct ddl_table_migrator_prefs;
+}
 
 namespace middle {
 

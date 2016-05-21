@@ -10,9 +10,15 @@
 
 #include <ddl_names.h>
 #include <ddl_stnames_migrator.h>
-namespace normal_ddl { class ddl_names_filereader; }
-namespace normal_ddl { class ddl_table_migrator_factory; }
-namespace middle { struct ddl_source_root; }
+namespace normal_ddl {
+class ddl_names_filereader;
+}
+namespace normal_ddl {
+class ddl_table_migrator_factory;
+}
+namespace middle {
+struct ddl_source_root;
+}
 
 namespace middle {
 

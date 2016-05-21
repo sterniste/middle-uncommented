@@ -8,7 +8,9 @@
 
 #include <ddl_names.h>
 #include <ddl_names_filereader.h>
-namespace normal_ddl { class ddl_stnames_migrator_factory; }
+namespace normal_ddl {
+class ddl_stnames_migrator_factory;
+}
 
 namespace middle {
 

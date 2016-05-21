@@ -72,9 +72,9 @@ middle_runner::parse_args(int argc, const char* argv[]) {
   options_description config_file_opts_desc("Configuration options");
   config_file_opts_desc.add_options()("odbc-datasource,d", value<vector<string>>()->composing(), "ODBC DSN:username:password")("graft-source-paths,g", "graft source paths to target root")("include-source-paths,i", value<vector<string>>()->composing(), "include source filepaths (partial regex)")("exclude-source-paths,x", value<vector<string>>()->composing(), "exclude source filepaths (partial regex)")("json-prefs-file,j", value<string>(), "json preferences file")("batch-sources,b", "batch sources under each source root")
 #ifdef LEVEL_LOGGING
-    ("log-file", value<string>(), "log to file")("log-level", value<string>()->default_value("info"), "log level: [fatal, error, warn, info, debug, trace]")
+      ("log-file", value<string>(), "log to file")("log-level", value<string>()->default_value("info"), "log level: [fatal, error, warn, info, debug, trace]")
 #endif
-    ;
+      ;
   cmd_line_opts_desc.add(config_file_opts_desc);
 
   variables_map var_map;
@@ -171,4 +171,3 @@ middle_runner::parse_args(int argc, const char* argv[]) {
   return runner;
 }
 }
-

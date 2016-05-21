@@ -96,13 +96,11 @@ ddl_default_value_rule_macro_expander::process_match(const string::const_iterato
         const string macro_args_text{match.text_cit, text_cend};
         try {
           ddl_default_value_rule_macro_args_expander macro_args_expander{*it->second.macro_args};
-          const ddl_default_value_rule_macro_args_result macro_args_result{
-            macro_args_expander.expand_macro_args(macro_args_text)};
+          const ddl_default_value_rule_macro_args_result macro_args_result{macro_args_expander.expand_macro_args(macro_args_text)};
           if (macro_args_result.macro_lhs_argcnt != it->second.macro_args->argcnt)
             throw invalid_argument{make_argcnt_mismatch_msg(macro_lhs, macro_args_text, it->second.macro_args->argcnt, macro_args_result.macro_lhs_argcnt)};
           copy(it->second.macro_rhs.cbegin(), it->second.macro_rhs.cend(), back_inserter(appended_text));
-          copy(macro_args_result.macro_rhs_args.cbegin(), macro_args_result.macro_rhs_args.cend(),
-               back_inserter(appended_text));
+          copy(macro_args_result.macro_rhs_args.cbegin(), macro_args_result.macro_rhs_args.cend(), back_inserter(appended_text));
           return process_match_result{match.text_cit + (macro_args_result.text_cit - macro_args_text.cbegin()), false};
         } catch (const rejected_text_error& e) {
           throw invalid_argument{make_rejected_text_msg(macro_lhs, macro_args_text, e.text_pos) + ": " + e.what()};

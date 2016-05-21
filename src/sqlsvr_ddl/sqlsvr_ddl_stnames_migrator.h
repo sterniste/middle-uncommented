@@ -10,7 +10,9 @@
 
 #include <ddl_names.h>
 #include <ddl_stnames_migrator.h>
-namespace normal_ddl { class ddl_table_migrator_factory; }
+namespace normal_ddl {
+class ddl_table_migrator_factory;
+}
 #include <ochain.h>
 
 #include "sqlsvr_ddl_ck_mapper.h"

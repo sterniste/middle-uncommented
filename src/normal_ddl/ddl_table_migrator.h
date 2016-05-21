@@ -13,7 +13,9 @@
 #include "ddl_column_rules.h"
 #include "ddl_migration_msg.h"
 #include "ddl_names.h"
-namespace normal_ddl { struct ddl_table_migrator_prefs; }
+namespace normal_ddl {
+struct ddl_table_migrator_prefs;
+}
 
 namespace normal_ddl {
 

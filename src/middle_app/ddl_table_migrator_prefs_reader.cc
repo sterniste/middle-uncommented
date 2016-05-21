@@ -232,6 +232,9 @@ parse_type_name_datatype_rule(const ptree& pref_tree, const string& pref_path) {
 }
 
 const string ddl_table_migrator_prefs_reader::cant_parse_json_prefs_msg_prefix{"can't parse JSON prefs: "};
+const string ddl_table_migrator_prefs_reader::cant_parse_json_datatype_rule_prefs_msg_prefix{"can't parse JSON datatype rule prefs: "};
+const string ddl_table_migrator_prefs_reader::cant_parse_json_default_value_rule_prefs_msg_prefix{"can't parse JSON default value rule prefs: "};
+const string ddl_table_migrator_prefs_reader::at_path_msg_infix{" at path "};
 
 void
 ddl_table_migrator_prefs_reader::load_datatype_rules_prefs(const ptree& pref_root, ddl_datatype_rules& datatype_rules) {
@@ -256,9 +259,9 @@ ddl_table_migrator_prefs_reader::load_datatype_rules_prefs(const ptree& pref_roo
       *verbose_os << "loaded " << datatype_rules.size() << " JSON datatype rule prefs" << endl;
   } catch (const std::exception& e) {
 #ifdef LEVEL_LOGGING
-    BOOST_LOG_TRIVIAL(debug) << "caught std::exception: can't parse JSON datatype rule prefs: " << e.what();
+    BOOST_LOG_TRIVIAL(debug) << "caught std::exception: " << cant_parse_json_datatype_rule_prefs_msg_prefix << e.what();
 #endif
-    throw ddl_table_migrator_prefs_error{string{"can't parse JSON datatype rule prefs: "} + e.what()};
+    throw ddl_table_migrator_prefs_error{cant_parse_json_datatype_rule_prefs_msg_prefix + e.what()};
   }
 }
 
@@ -325,9 +328,9 @@ ddl_table_migrator_prefs_reader::load_default_value_rules_prefs(const ptree& pre
       *verbose_os << "loaded " << default_value_rules.size() << " JSON default value rule prefs" << endl;
   } catch (const std::exception& e) {
 #ifdef LEVEL_LOGGING
-    BOOST_LOG_TRIVIAL(debug) << "caught std::exception: can't parse JSON default value rule prefs: " << e.what();
+    BOOST_LOG_TRIVIAL(debug) << "caught std::exception: " << cant_parse_json_default_value_rule_prefs_msg_prefix << e.what();
 #endif
-    throw ddl_table_migrator_prefs_error{string{"can't parse JSON default value rule prefs: "} + e.what()};
+    throw ddl_table_migrator_prefs_error{cant_parse_json_default_value_rule_prefs_msg_prefix + e.what()};
   }
 }
 

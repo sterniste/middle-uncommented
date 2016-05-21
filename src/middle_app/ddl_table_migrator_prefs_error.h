@@ -7,7 +7,7 @@
 namespace middle {
 
 struct ddl_table_migrator_prefs_error : public std::runtime_error {
-  ddl_table_migrator_prefs_error(const std::string& msg) : std::runtime_error{msg} { }
+  ddl_table_migrator_prefs_error(const std::string& msg) : std::runtime_error{msg} {}
 };
 }
 

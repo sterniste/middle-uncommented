@@ -5,7 +5,7 @@
 #include "uc_string.h"
 
 namespace universals {
-  
+
 template <>
 std::basic_string<char>
 to_upper(const std::basic_string<char>& s) {
