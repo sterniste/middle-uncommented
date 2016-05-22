@@ -372,8 +372,8 @@ sqlsvr_ddl_stnames_migrator_impl::migrate_ddl_stname(ddl_table_migrator_factory&
 }
 
 ddl_stnames_migration_msgs
-sqlsvr_ddl_stnames_migrator_impl::migrate_ddl_stnames(ddl_table_migrator_factory* app_table_migrator_factory, ostream& os) {
-  counter_ochain coc{os};
+sqlsvr_ddl_stnames_migrator_impl::migrate_ddl_stnames(ddl_table_migrator_factory* app_table_migrator_factory, ostream& target_ddl_os) {
+  counter_ochain target_ddl_coc{target_ddl_os};
   ddl_stnames_migration_msgs stnames_migration_msgs;
   const vector<ddl_stname> stnames{sort_stname_usedcols_stnames(stname_usedcols)};
   unsigned int table_info_cnt{};
@@ -382,7 +382,7 @@ sqlsvr_ddl_stnames_migrator_impl::migrate_ddl_stnames(ddl_table_migrator_factory
     const unique_ptr<const ddl_table_info> table_info{find_table_info(stname)};
     if (table_info) {
       if (app_table_migrator_factory)
-        migrate_ddl_stname(*app_table_migrator_factory, stname, last_schema_name, *table_info, stnames_migration_msgs, coc);
+        migrate_ddl_stname(*app_table_migrator_factory, stname, last_schema_name, *table_info, stnames_migration_msgs, target_ddl_coc);
       ++table_info_cnt;
     } else {
       stnames_migration_msgs.push_back(ddl_stnames_migration_msg{0, stname, ddl_cname{}, ddl_migration_msg{ddl_migration_msg_level::error, ddl_migration_msg::table_used_but_undefined_msg}});
@@ -394,7 +394,7 @@ sqlsvr_ddl_stnames_migrator_impl::migrate_ddl_stnames(ddl_table_migrator_factory
     }
   }
   if (table_info_cnt)
-    migrate_validate_fk_constraints_ddl(stname_usedcols, have_usedcols, assumed_idents, stnames_migration_msgs, !app_table_migrator_factory, coc);
+    migrate_validate_fk_constraints_ddl(stname_usedcols, have_usedcols, assumed_idents, stnames_migration_msgs, !app_table_migrator_factory, target_ddl_coc);
   return stnames_migration_msgs;
 }
 

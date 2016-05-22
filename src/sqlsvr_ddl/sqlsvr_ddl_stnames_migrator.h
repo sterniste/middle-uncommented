@@ -70,7 +70,7 @@ class sqlsvr_ddl_stnames_migrator_impl : public normal_ddl::ddl_stnames_migrator
  public:
   sqlsvr_ddl_stnames_migrator_impl(sqlsvr_ddl_queries& queries, const normal_ddl::ddl_stname_usedcols& stname_usedcols, bool have_usedcols, const normal_ddl::ddl_assumed_identities& assumed_idents, std::ostream* verbose_os) : normal_ddl::ddl_stnames_migrator{verbose_os}, normal_ddl::ddl_stname_migrator_base{verbose_os}, queries{queries}, stname_usedcols{stname_usedcols}, have_usedcols{have_usedcols}, assumed_idents{assumed_idents}, verbose_os{verbose_os} {}
 
-  virtual normal_ddl::ddl_stnames_migration_msgs migrate_ddl_stnames(normal_ddl::ddl_table_migrator_factory* app_table_migrator_factory, std::ostream& os) override;
+  virtual normal_ddl::ddl_stnames_migration_msgs migrate_ddl_stnames(normal_ddl::ddl_table_migrator_factory* app_table_migrator_factory, std::ostream& target_ddl_os) override;
 };
 
 class sqlsvr_ddl_stnames_migrator_factory_impl : public normal_ddl::ddl_stnames_migrator_factory, private sqlsvr_ddl_queries_impl {

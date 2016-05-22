@@ -56,7 +56,7 @@ struct ddl_stnames_migration_msg {
   bool operator==(const ddl_stnames_migration_msg& that) const;
   bool operator<(const ddl_stnames_migration_msg& that) const;
 
-  std::string str() const;
+  std::string str(unsigned int lineno_offset) const;
 };
 
 using ddl_stnames_migration_msgs = std::vector<ddl_stnames_migration_msg>;
@@ -89,7 +89,7 @@ class ddl_stnames_migrator {
  public:
   virtual ~ddl_stnames_migrator() {}
 
-  virtual ddl_stnames_migration_msgs migrate_ddl_stnames(normal_ddl::ddl_table_migrator_factory* app_table_migrator_factory, std::ostream& os) = 0;
+  virtual ddl_stnames_migration_msgs migrate_ddl_stnames(normal_ddl::ddl_table_migrator_factory* app_table_migrator_factory, std::ostream& target_ddl_os) = 0;
 };
 
 class ddl_stnames_migrator_factory {

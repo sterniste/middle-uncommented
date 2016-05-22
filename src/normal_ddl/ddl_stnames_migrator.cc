@@ -64,12 +64,12 @@ bool ddl_stnames_migration_msg::operator<(const ddl_stnames_migration_msg& that)
 }
 
 string
-ddl_stnames_migration_msg::str() const {
+ddl_stnames_migration_msg::str(unsigned int lineno_offset) const {
   string str{msg.level_str()};
   for (auto i = str.length(); i < 8; ++i)
     str += ' ';
   if (lineno)
-    str += string{"[line "} + lexical_cast<string>(lineno) + "]: ";
+    str += string{"[line "} + lexical_cast<string>(lineno_offset + lineno) + "]: ";
   if (!stname.empty()) {
     str += stname.str();
     if (!cname.empty())

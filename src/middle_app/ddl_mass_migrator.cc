@@ -2,7 +2,7 @@
 #include <cassert>
 #include <chrono>
 #include <ctime>
-#include <iosfwd>
+#include <fstream>
 #include <iterator>
 #include <memory>
 #include <regex>
@@ -11,9 +11,6 @@
 #include <vector>
 
 #include <boost/filesystem/operations.hpp>
-#include <boost/iostreams/device/file.hpp>
-#include <boost/iostreams/filter/counter.hpp>
-#include <boost/iostreams/filtering_stream.hpp>
 #include <boost/lexical_cast.hpp>
 #ifdef LEVEL_LOGGING
 #include <boost/log/trivial.hpp>
@@ -88,32 +85,41 @@ now() {
   return timebuf;
 }
 
+unsigned int
+ddl_target_mass_migrator::write_target_ddl_header(ostream& os, bool batch_source) {
+  unsigned int lineno_offset{};
+  os << "-- DO NOT EDIT: this file was migrated by MIDDLE (version: " << app_version << ") at " << now() << " from " << filepaths.size() << (batch_source ? " batch " : " ") << "source(s): " << endl;
+  ++lineno_offset;
+  for (const auto& filepath : filepaths) {
+    os << "-- " << filepath << endl;
+    ++lineno_offset;
+  }
+  os << endl;
+  return ++lineno_offset;
+}
+
 void
 ddl_target_mass_migrator::mass_migrate_target_ddl(ddl_table_migrator_factory& app_table_migrator_factory, bool batch_source) {
   if (!stname_usedcols.empty()) {
     if (!exists(target_ddl_path.parent_path()))
       create_directories(target_ddl_path.parent_path());
-    file_sink fs{target_ddl_path.generic_string()};
-    if (fs.is_open()) {
+    ofstream target_ddl_ofs{target_ddl_path.generic_string()};
+    if (target_ddl_ofs.is_open()) {
 #ifdef LEVEL_LOGGING
       BOOST_LOG_TRIVIAL(info) << "writing target DDL '" << target_ddl_path.generic_string() << '\'';
 #endif
       if (verbose_os)
         *verbose_os << "writing target DDL '" << target_ddl_path.generic_string() << '\'' << endl;
-      filtering_ostream target_ddl_fos(counter() | fs);
-      target_ddl_fos << "-- DO NOT EDIT: this file was migrated by MIDDLE (version: " << app_version << ") at " << now() << " from " << filepaths.size() << (batch_source ? " batch " : " ") << "source(s): " << endl;
-      for (const auto& filepath : filepaths)
-        target_ddl_fos << "-- " << filepath << endl;
-      target_ddl_fos << endl;
+      const unsigned int lineno_offset{write_target_ddl_header(target_ddl_ofs, batch_source)};
       const unique_ptr<ddl_stnames_migrator> app_stnames_migrator{app_stnames_migrator_factory.make_stnames_migrator(stname_usedcols, have_usedcols, assumed_idents, verbose_os)};
       assert(app_stnames_migrator);
-      ddl_stnames_migration_msgs stnames_migration_msgs{app_stnames_migrator->migrate_ddl_stnames(&app_table_migrator_factory, target_ddl_fos)};
+      ddl_stnames_migration_msgs stnames_migration_msgs{app_stnames_migrator->migrate_ddl_stnames(&app_table_migrator_factory, target_ddl_ofs)};
       copy(batch_stnames_migration_msgs.cbegin(), batch_stnames_migration_msgs.cend(), back_inserter(stnames_migration_msgs));
       if (!stnames_migration_msgs.empty()) {
         sort(stnames_migration_msgs.begin(), stnames_migration_msgs.end());
-        target_ddl_fos << endl << "-- errors/warnings/remarks:" << endl;
+        target_ddl_ofs << endl << "-- errors/warnings/remarks:" << endl;
         for (const auto& stnames_migration_msg : stnames_migration_msgs)
-          target_ddl_fos << "-- " << stnames_migration_msg.str() << endl;
+          target_ddl_ofs << "-- " << stnames_migration_msg.str(lineno_offset) << endl;
       }
     } else {
 #ifdef LEVEL_LOGGING

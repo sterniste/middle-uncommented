@@ -32,6 +32,8 @@ class ddl_target_mass_migrator {
   normal_ddl::ddl_stnames_migrator_factory& app_stnames_migrator_factory;
   std::ostream* verbose_os;
 
+  unsigned int write_target_ddl_header(std::ostream& os, bool batch_source);
+
  public:
   ddl_target_mass_migrator(boost::filesystem::path&& target_ddl_path, std::vector<std::string>&& filepaths, bool have_usedcols, normal_ddl::ddl_stname_usedcols&& stname_usedcols, normal_ddl::ddl_assumed_identities&& assumed_idents, normal_ddl::ddl_stnames_migration_msgs&& batch_stnames_migration_msgs, normal_ddl::ddl_stnames_migrator_factory& app_stnames_migrator_factory, std::ostream* verbose_os) : target_ddl_path{std::move(target_ddl_path)}, filepaths{std::move(filepaths)}, have_usedcols{have_usedcols}, stname_usedcols{std::move(stname_usedcols)}, assumed_idents{std::move(assumed_idents)}, batch_stnames_migration_msgs{std::move(batch_stnames_migration_msgs)}, app_stnames_migrator_factory{app_stnames_migrator_factory}, verbose_os{verbose_os} {}
 
