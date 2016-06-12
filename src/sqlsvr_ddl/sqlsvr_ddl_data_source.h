@@ -10,6 +10,9 @@ struct sqlsvr_ddl_odbc_data_source {
   std::string username;
   std::string password;
 
+  static sqlsvr_ddl_odbc_data_source parse(const std::string& odbc_data_source_spec);
+
+ private:
   sqlsvr_ddl_odbc_data_source(const std::string& ds_name, const std::string& username, const std::string& password) : ds_name{ds_name}, username{username}, password{password} {}
 };
 }

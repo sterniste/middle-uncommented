@@ -23,7 +23,7 @@ struct middle_opts_exception : public std::runtime_error {
 
 class middle_runner {
   static const char* validate_target_root(const boost::filesystem::path& target_root);
-  static std::vector<sqlsvr_ddl::sqlsvr_ddl_odbc_data_source> parse_odbc_data_sources(const std::vector<std::string>& dsn_app_pwds);
+  static std::vector<sqlsvr_ddl::sqlsvr_ddl_odbc_data_source> parse_odbc_data_sources(const std::vector<std::string>& odbc_data_source_specs);
 
   const int argc;
   const char* const* const argv;

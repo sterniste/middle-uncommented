@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -44,18 +45,11 @@ middle_runner::validate_target_root(const path& target_root) {
 }
 
 vector<sqlsvr_ddl_odbc_data_source>
-middle_runner::parse_odbc_data_sources(const vector<string>& dsn_app_pwds) {
-  vector<sqlsvr_ddl_odbc_data_source> data_sources;
-  for (const auto& dsn_app_pwd : dsn_app_pwds) {
-    const auto pos1 = dsn_app_pwd.find(':');
-    if (pos1 == 0 || pos1 == string::npos)
-      throw invalid_argument{string{"missing/empty DSN in ODBC datasource '"} + dsn_app_pwd + '\''};
-    const auto pos2 = dsn_app_pwd.find(':', pos1 + 1);
-    if (pos2 == pos1 + 1 || pos2 == string::npos)
-      throw invalid_argument{string{"missing/empty username in ODBC datasource '"} + dsn_app_pwd + '\''};
-    data_sources.push_back(sqlsvr_ddl_odbc_data_source{dsn_app_pwd.substr(0, pos1), dsn_app_pwd.substr(pos1 + 1, pos2 - (pos1 + 1)), dsn_app_pwd.substr(pos2 + 1)});
-  }
-  return data_sources;
+middle_runner::parse_odbc_data_sources(const vector<string>& odbc_data_source_specs) {
+  vector<sqlsvr_ddl_odbc_data_source> odbc_data_sources;
+  for (const auto& odbc_data_source_spec : odbc_data_source_specs)
+    odbc_data_sources.push_back(sqlsvr_ddl_odbc_data_source::parse(odbc_data_source_spec));
+  return odbc_data_sources;
 }
 
 middle_runner

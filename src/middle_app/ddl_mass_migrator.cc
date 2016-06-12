@@ -110,7 +110,7 @@ ddl_target_mass_migrator::mass_migrate_target_ddl(ddl_table_migrator_factory& ap
 #endif
       if (verbose_os)
         *verbose_os << "writing target DDL '" << target_ddl_path.generic_string() << '\'' << endl;
-      const unsigned int lineno_offset{write_target_ddl_header(target_ddl_ofs, batch_source)};
+      const unsigned int header_linecnt{write_target_ddl_header(target_ddl_ofs, batch_source)};
       const unique_ptr<ddl_stnames_migrator> app_stnames_migrator{app_stnames_migrator_factory.make_stnames_migrator(stname_usedcols, have_usedcols, assumed_idents, verbose_os)};
       assert(app_stnames_migrator);
       ddl_stnames_migration_msgs stnames_migration_msgs{app_stnames_migrator->migrate_ddl_stnames(&app_table_migrator_factory, target_ddl_ofs)};
@@ -119,7 +119,7 @@ ddl_target_mass_migrator::mass_migrate_target_ddl(ddl_table_migrator_factory& ap
         sort(stnames_migration_msgs.begin(), stnames_migration_msgs.end());
         target_ddl_ofs << endl << "-- errors/warnings/remarks:" << endl;
         for (const auto& stnames_migration_msg : stnames_migration_msgs)
-          target_ddl_ofs << "-- " << stnames_migration_msg.str(lineno_offset) << endl;
+          target_ddl_ofs << "-- " << stnames_migration_msg.str(header_linecnt) << endl;
       }
     } else {
 #ifdef LEVEL_LOGGING
